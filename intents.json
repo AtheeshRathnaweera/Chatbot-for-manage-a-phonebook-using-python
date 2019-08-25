@@ -1,0 +1,101 @@
+{"intents": [
+    {   "tag": "greeting",
+        "patterns": ["Hi","Hey","Is anyone there","Hello","You there?","hey nute"],
+        "responses": ["Hello $userName ! How can i help you ?","Good to see you again $userName ! How can i help you ?","Hi $userName , you are back ! :) :) :) How can i help you ?" ,"Hey $userName nice to see you again! :) How can i help you ?"],
+        "context_set":""
+    },
+    {   "tag": "goodbye",
+        "patterns": ["cu","cya","See you later","Good bye","I am leaving","Have a good day","I am gonna go"],
+        "responses": ["Goodbye!","Sad to see you go :(","Talk to you later","Have a nice day!"],
+        "context_set":""
+    },
+    {   "tag": "userNameRequest",
+        "patterns": ["Do you know my name?","Can you tell me my name?","What is my name?"],
+        "responses": ["Your name is $userName","You are $userName ","$userName"],
+        "context_set":""
+    },
+    {   "tag": "whatCanDo",
+        "patterns": ["What can you do?","What are you?","What do you do?"],
+        "responses": ["I can be your talking phonebook. I can remember important contact numbers to you","I can remember contact numbers"],
+        "context_set":""
+    },
+    {
+        "tag": "name",
+        "patterns": ["What is your name?","Your name","Name please","name?","Tell me your name"],
+        "responses": ["I am Nute","Nute :) :) :) :)","My name is Nute :)"],
+        "context_set":""
+    },
+    {
+        "tag": "booringWords",
+        "patterns": ["ok","hm","um","ha","oh","ugh","hum","You are welcome"],
+        "responses": [":) :) :)"],
+        "context_set":""
+    },
+
+    {
+        "tag": "happening",
+        "patterns": ["What is happening?","Whats up","How do you doing?","How is the life?"],
+        "responses": ["Just chilling","Not much! I was thinking about my future.","Not much, how about you? ;)","Not much!"],
+        "context_set":""
+
+    },
+    {
+        "tag": "howAreYou",
+        "patterns": ["How are you?"],
+        "responses": ["I am fine.What about you?","I am fine :):)","Fine. What about you?"],
+        "context_set":""
+
+    },
+    {
+        "tag": "responseForFine",
+        "patterns": ["Fine","I am fine.","I am well","I am doing great!","Not much","Nice to see you too!","I am fine too.","Doing well","You made me laugh","same","Good to see you too","Nice"],
+        "responses": ["Happy to hear that!","Good to hear that!","Very nice! "],
+        "context_set":""
+
+    },
+    {
+        "tag": "niceName",
+        "patterns": ["Nice name","You have a funny name","You have a very funny name","You have a crazy name","Your name is very funny!","Funny name","Have a nice day too"],
+        "responses": ["Thank you! :) :)",";) ;) ;) ;)","Thanks!"],
+        "context_set":""
+    }
+    ,
+    {
+        "tag": "cannotUnderstand",
+        "patterns": [""],
+        "responses": ["Sorry I didn't catch that!","Sorry I didn't get that!","Sorry! Can't understand what you are saying!","Can you tell that again!"],
+        "context_set":""
+
+    },
+    {
+        "tag": "appreciation",
+        "patterns": ["Good work","You are very helpful","Thank you very much","good"],
+        "responses": ["I am always willing to help you! :):)","Your kind words means lot to me !"],
+        "context_set":""
+
+    },
+    {
+        "tag": "add",
+        "patterns": ["Save a new number","Add a new number","add","save","add this","add new contact"],
+        "responses": ["Ok give me a second !"],
+        "context_set":""
+
+    },{
+        "tag": "view",
+        "patterns": ["show","Tell me phone number","What is the phone number","What is the contact number of","phone number of","contact number of","Do you know the phone number of",""],
+        "responses": ["Ok give me a second !"],
+        "context_set":""
+    },{
+        "tag": "ss01",
+        "patterns": [],
+        "responses": ["What is the person s name ?","Who s contact number is this?","Tell me the contact s name !"],
+        "context_set":""
+    },
+    {
+        "tag": "ss02",
+        "patterns": [],
+        "responses": ["What is the number ?","Phone number ?","Tell me the conact number please !"],
+        "context_set":""
+    }
+    ]
+}

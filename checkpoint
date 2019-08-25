@@ -1,0 +1,2 @@
+model_checkpoint_path: "D:\\phoneBookBot\\model.tflearn"
+all_model_checkpoint_paths: "D:\\phoneBookBot\\model.tflearn"
