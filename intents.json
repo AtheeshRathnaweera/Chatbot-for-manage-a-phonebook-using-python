@@ -1,6 +1,6 @@
 {"intents": [
     {   "tag": "greeting",
-        "patterns": ["Hi","Hey","Is anyone there","Hello","You there?","hey nute"],
+        "patterns": ["Hi","Hey","Is anyone there","Hello","You there?","hey nute","hy"],
         "responses": ["Hello $userName ! How can i help you ?","Good to see you again $userName ! How can i help you ?","Hi $userName , you are back ! :) :) :) How can i help you ?" ,"Hey $userName nice to see you again! :) How can i help you ?"],
         "context_set":""
     },
@@ -27,7 +27,7 @@
     },
     {
         "tag": "booringWords",
-        "patterns": ["ok","hm","um","ha","oh","ugh","hum","You are welcome"],
+        "patterns": ["ok","hm","um","ha","oh","ugh","hum","You are welcome","Good to hear that","no"],
         "responses": [":) :) :)"],
         "context_set":""
     },
@@ -69,7 +69,7 @@
     },
     {
         "tag": "appreciation",
-        "patterns": ["Good work","You are very helpful","Thank you very much","good"],
+        "patterns": ["Good work","You are very helpful","Thank you very much","good","you are good","Thanks"],
         "responses": ["I am always willing to help you! :):)","Your kind words means lot to me !"],
         "context_set":""
 
@@ -77,13 +77,13 @@
     {
         "tag": "add",
         "patterns": ["Save a new number","Add a new number","add","save","add this","add new contact"],
-        "responses": ["Ok give me a second !"],
+        "responses": ["Ok give me a second ! add"],
         "context_set":""
 
     },{
         "tag": "view",
-        "patterns": ["show","Tell me phone number","What is the phone number","What is the contact number of","phone number of","contact number of","Do you know the phone number of",""],
-        "responses": ["Ok give me a second !"],
+        "patterns": ["show","Tell me of","What is the of","phone number of","contact number of","Do know the of","view"],
+        "responses": ["Ok give me a second ! view"],
         "context_set":""
     },{
         "tag": "ss01",
@@ -95,6 +95,11 @@
         "tag": "ss02",
         "patterns": [],
         "responses": ["What is the number ?","Phone number ?","Tell me the conact number please !"],
+        "context_set":""
+    },{
+        "tag": "remove",
+        "patterns": ["remove a number","please remove of","delete","del","remove of"],
+        "responses": ["Ok give me a second! remove"],
         "context_set":""
     }
     ]

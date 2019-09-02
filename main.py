@@ -23,6 +23,8 @@ output = []
 userData = {}  
 normalChat = True
 
+phoneBook = {}
+
 def populateLists(jsonData):
     global words
     global labels
@@ -147,29 +149,23 @@ def getResponseFromTheJson(tag):
             responses = tg['responses']
             return responses
 
-def confirmTheDetails(name,number):
-    print('\tBot : Check the following and confirm. Please tell "confirm" if the details are right.\n\tTell "change" if you want to update the details. Tell "discard" if you want to terminate the saving.')
+def confirmTheSaving():
 
-    print("\t\tContact s name: "+name+"\n\t\tNumber : "+number)
-
+    global normalChat
     res = input("\tYou : ")
-
-    resBool = True
+    res = res.lower()
 
     if res == "confirm":
-        resBool = True
+        print("\tBot : I memorized the new contact!")
+        normalChat = True
     elif res == "change":
-        print("\tBot : Change the name !")
-        io.StringIO(name)
-        name = input("\tYou : ")
-        print("\tBot : Change the phone number !")
-        io.StringIO(number)
-        name = input("\tYou : ")
-        confirmTheDetails(name,number)
+        addingANew()
+    elif res == "discard":
+        print("\tBot : Discarded.")
+        normalChat = True
     else:
-        resBool = False
-    
-    return resBool
+        print("Bot : Can't understand what you are saying !")
+        confirmTheSaving()
 
 
 def addingANew():
@@ -181,12 +177,53 @@ def addingANew():
     print("\tBot : "+random.choice(getResponseFromTheJson("ss02")))
     phoneNumber = input("\tYou : ")
 
-    res = confirmTheDetails(contactName,phoneNumber)
+    print('\tBot : Check the following and confirm. Please tell "confirm" if the details are right.Tell "change" if \n\t\tyou want to update the details. Tell "discard" if you want to terminate the saving.')
 
-    if res == True:
-        print("\tBot : I memorized the new contact!"+res)
-    else:
-        print("\tBot : Discarded."+res)
+    print("\n\t\t\t\tContact s name: "+contactName+"\n\t\t\t\tNumber : "+phoneNumber)
+
+    confirmTheSaving()
+
+
+def viewTheContacts(userInput):
+    global normalChat
+    normalChat = False
+
+    wordsInInput = []
+    possibleNames = []
+
+    wrds = nltk.word_tokenize(userInput)
+    wordsInInput.extend(wrds)
+
+    print("\n\nWords in input")
+    print(wordsInInput)
+    print("After stemming: ")
+
+    wordsInInput = stemmingAList(wordsInInput)
+    print(wordsInInput)
+
+    for wrd in wordsInInput:
+        if (wrd not in words) and wrd != "s":
+            possibleNames.append(wrd)
+
+    print("possible")
+    print(possibleNames)
+
+
+    
+
+    #print('\tBot : Tell me the contact s name . (or say "all" if you want to view all the contacts )')
+   # contactName = input("\tYou : ")
+   # print('\tBot : This is what i found for "'+contactName+'" : (say "done" if you want to close the phone book.)')
+   # print("\t\t\tContact Name : ")
+   # print("\t\t\tNumber : 0717223371")
+
+
+    
+    normalChat = True
+
+def removeAContact():
+    global normalChat
+    normalChat = False
 
     normalChat = True
 
@@ -203,6 +240,7 @@ def chat(model):
         
         userInput = input("\tYou : ")
         if userInput.lower() == "quit":
+            print("\tBot : Have a nice day "+userData["name"]+" !")
             break
         
         results = model.predict([bagOfWordsInUserInput(userInput, words)])[0]
@@ -211,24 +249,29 @@ def chat(model):
 
         tag = labels[resultsIndex]
 
+        
+        if results[resultsIndex] > 0.85:
+            responses = getResponseFromTheJson(tag)
+
+            if tag in ["greeting","userNameRequest"]:
+                print("\tBot : "+random.choice(responses).replace("$userName",userData["name"]))
+            else:
+                print("\tBot : "+random.choice(responses))
+           
+        else:    
+            responses = getResponseFromTheJson("cannotUnderstand")
+            print("\tBot : "+random.choice(responses))
+        
         if tag == "add":
             addingANew()
-        else:
-            if results[resultsIndex] > 0.85:
-                responses = getResponseFromTheJson(tag)
+        elif tag == "view":
+            viewTheContacts(userInput)
+        elif tag == "remove": 
+            removeAContact()
 
-                if tag in ["greeting","userNameRequest"]:
-                    print("\tBot : "+random.choice(responses).replace("$userName",userData["name"]))
-                else:
-                    print("\tBot : "+random.choice(responses))
-           
-            else:
-                responses = getResponseFromTheJson("cannotUnderstand")
-                print("\tBot : "+random.choice(responses))
+
 
         
-
-
 def checkTheUserDataExistency():
     global userData
     
