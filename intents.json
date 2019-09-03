@@ -27,11 +27,16 @@
     },
     {
         "tag": "booringWords",
-        "patterns": ["ok","hm","um","ha","oh","ugh","hum","You are welcome","Good to hear that","no"],
+        "patterns": ["ok","hm","um","ha","oh","ugh","hum","You are welcome","Good to hear that","no","Thank you very much","Thanks","Thank you"],
         "responses": [":) :) :)"],
         "context_set":""
-    },
+    },{
+        "tag": "thanking",
+        "patterns": ["Thank you very much","Thanks","Thank you"],
+        "responses": ["You are welcome!"],
+        "context_set":""
 
+    },
     {
         "tag": "happening",
         "patterns": ["What is happening?","Whats up","How do you doing?","How is the life?"],
@@ -69,7 +74,7 @@
     },
     {
         "tag": "appreciation",
-        "patterns": ["Good work","You are very helpful","Thank you very much","good","you are good","Thanks"],
+        "patterns": ["Good work","You are very helpful","good","you are good"],
         "responses": ["I am always willing to help you! :):)","Your kind words means lot to me !"],
         "context_set":""
 
@@ -77,24 +82,24 @@
     {
         "tag": "add",
         "patterns": ["Save a new number","Add a new number","add","save","add this","add new contact"],
-        "responses": ["Ok give me a second ! add"],
+        "responses": ["Ok give me a second !"],
         "context_set":""
 
     },{
         "tag": "view",
-        "patterns": ["show","Tell me of","What is the of","phone number of","contact number of","Do know the of","view"],
-        "responses": ["Ok give me a second ! view"],
+        "patterns": ["show","Tell me of","What is the of","phone number of","contact number of","Do know the of","view a number"],
+        "responses": ["Ok give me a second !"],
         "context_set":""
     },{
         "tag": "ss01",
         "patterns": [],
-        "responses": ["What is the person s name ?","Who s contact number is this?","Tell me the contact s name !"],
+        "responses": ["What is the person s name ?","Tell me the contact s name !"],
         "context_set":""
     },
     {
         "tag": "ss02",
         "patterns": [],
-        "responses": ["What is the number ?","Phone number ?","Tell me the conact number please !"],
+        "responses": ["What is the number ?","Phone number ?","Tell me the contact number please !"],
         "context_set":""
     },{
         "tag": "remove",

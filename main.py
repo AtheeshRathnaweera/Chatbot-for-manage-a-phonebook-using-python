@@ -166,21 +166,16 @@ def checkTheDBExistency(filename):
 
 def settingTheDB():
     #Creating the tables if the db not exists
-
     conn = sqlite3.connect('phonebook.db')
-
     conn.execute('''CREATE TABLE PHONEBOOK
          (MAIN_CATEGORY           CHAR(1)    NOT NULL,
          CONTACT_NAME            CHAR(30)     NOT NULL,
          NUMBER       INT   NOT NULL);''')
-
-    print ("Table created successfully")
-
     conn.close()
+
 
 def insertNewContact(mainCat,contactName, phoneNum):
     conn = sqlite3.connect('phonebook.db')
-    print ("Opened database successfully")
 
     query = "INSERT INTO PHONEBOOK (MAIN_CATEGORY,CONTACT_NAME,NUMBER) \
       VALUES ('"+mainCat+"','"+contactName+"',"+phoneNum+")"
@@ -188,24 +183,17 @@ def insertNewContact(mainCat,contactName, phoneNum):
     conn.execute(query)
 
     conn.commit()
-    print ("Records created successfully")
     conn.close()
-
-
 
 
 def savingTheContact(contactName, phoneNum):
 
     ##conn = sqlite3.connect("my.db")
 
-    if checkTheDBExistency("phonebook.db"):
-        print ("Db exists" ) 
-    else:
-        print ("Db not exists")
+    if checkTheDBExistency("phonebook.db") == False:
         settingTheDB()
-
-    mainCat = contactName[0].lower()
-    print("Main cat : "+mainCat)
+        
+    mainCat = contactName[0].lower() #identifying the main category (alphabetical order)
     insertNewContact(mainCat,contactName, phoneNum)
 
 
@@ -225,8 +213,8 @@ def confirmTheSaving(contactName, phoneNum):
         print("\tBot : Discarded.")
         normalChat = True
     else:
-        print("Bot : Can't understand what you are saying !")
-        confirmTheSaving()
+        print("\tBot : Can't understand what you are saying !")
+        confirmTheSaving(contactName, phoneNum)
 
 
 def addingANew():
@@ -244,43 +232,83 @@ def addingANew():
 
     confirmTheSaving(contactName,phoneNumber)
 
+def retrieve(name): #retrieve data from the db
+    conn = sqlite3.connect('phonebook.db')
+
+    resNameList = []
+    resNumList = []
+
+    mainCat = name[0].lower()
+
+    cursor = conn.execute("SELECT MAIN_CATEGORY,CONTACT_NAME,NUMBER from PHONEBOOK WHERE MAIN_CATEGORY='"+mainCat+"'")
+
+    for row in cursor:
+
+        numberOfLetters = len(name)
+        existsRes = 0
+        #print(" letters : "+str(len(row[1]))+" "+str(len(name)))
+
+        for x,letter in enumerate(row[1]):
+        
+            try :
+                if letter == name[x]:
+                    existsRes = existsRes + 1
+                    #print("Turn "+str(x)+" exists")
+                    continue
+
+            except:
+                #index out of bound exception handling
+                break
+
+
+        resultPerc = existsRes*100/numberOfLetters
+
+        if(resultPerc > 50):
+            resNameList.append(row[1])
+            resNumList.append(row[2])
+
+
+    print("\tBot : Found "+str(len(resNameList))+" results")
+
+    for x,item in enumerate(resNameList):
+        print("\n\t\t Contact Name : "+resNameList[x]+"\n\t\t Phone Number : "+str(resNumList[x])+"\n")
+
+    conn.close()
+
 
 def viewTheContacts(userInput):
     global normalChat
     normalChat = False
 
-    wordsInInput = []
-    possibleNames = []
+    print("\tBot : What is the contact s name ?")
+    contactName = input("\tYou : ")
 
-    wrds = nltk.word_tokenize(userInput)
-    wordsInInput.extend(wrds)
+    #wordsInInput = []
+    #possibleNames = []
 
-    print("\n\nWords in input")
-    print(wordsInInput)
-    print("After stemming: ")
+    #wrds = nltk.word_tokenize(userInput)
+    #wordsInInput.extend(wrds)
 
-    wordsInInput = stemmingAList(wordsInInput)
-    print(wordsInInput)
+    #print("\n\nWords in input")
+    #print(wordsInInput)
+    #print("After stemming: ")
 
-    for wrd in wordsInInput:
-        if (wrd not in words) and wrd != "s":
-            possibleNames.append(wrd)
+    #wordsInInput = stemmingAList(wordsInInput)
+    #print(wordsInInput)
 
-    print("possible")
-    print(possibleNames)
+    #for wrd in wordsInInput:
+    #    if (wrd not in words) and wrd != "s":
+    #        possibleNames.append(wrd)
 
+    #print("possible")
+    #print(possibleNames)
 
-    
+    retrieve(contactName)
 
-    #print('\tBot : Tell me the contact s name . (or say "all" if you want to view all the contacts )')
-   # contactName = input("\tYou : ")
-   # print('\tBot : This is what i found for "'+contactName+'" : (say "done" if you want to close the phone book.)')
-   # print("\t\t\tContact Name : ")
-   # print("\t\t\tNumber : 0717223371")
-
-
-    
     normalChat = True
+
+
+
 
 def removeAContact():
     global normalChat
