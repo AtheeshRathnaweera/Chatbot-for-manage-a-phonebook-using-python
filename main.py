@@ -11,6 +11,9 @@ import random
 import json
 import pickle
 
+import sqlite3
+from os.path import isfile, getsize
+
 with open("intents.json") as file:
     data = json.load(file)
 
@@ -23,7 +26,8 @@ output = []
 userData = {}  
 normalChat = True
 
-phoneBook = {}
+contactNameList = []
+phoneNumbersList = []
 
 def populateLists(jsonData):
     global words
@@ -149,7 +153,63 @@ def getResponseFromTheJson(tag):
             responses = tg['responses']
             return responses
 
-def confirmTheSaving():
+def checkTheDBExistency(filename):
+    if not isfile(filename):
+        return False
+    if getsize(filename) < 100: # SQLite database file header is 100 bytes
+        return False
+
+    with open(filename, 'rb') as fd:
+        header = fd.read(100)
+
+    return header[:16] == b'SQLite format 3\x00'
+
+def settingTheDB():
+    #Creating the tables if the db not exists
+
+    conn = sqlite3.connect('phonebook.db')
+
+    conn.execute('''CREATE TABLE PHONEBOOK
+         (MAIN_CATEGORY           CHAR(1)    NOT NULL,
+         CONTACT_NAME            CHAR(30)     NOT NULL,
+         NUMBER       INT   NOT NULL);''')
+
+    print ("Table created successfully")
+
+    conn.close()
+
+def insertNewContact(mainCat,contactName, phoneNum):
+    conn = sqlite3.connect('phonebook.db')
+    print ("Opened database successfully")
+
+    query = "INSERT INTO PHONEBOOK (MAIN_CATEGORY,CONTACT_NAME,NUMBER) \
+      VALUES ('"+mainCat+"','"+contactName+"',"+phoneNum+")"
+
+    conn.execute(query)
+
+    conn.commit()
+    print ("Records created successfully")
+    conn.close()
+
+
+
+
+def savingTheContact(contactName, phoneNum):
+
+    ##conn = sqlite3.connect("my.db")
+
+    if checkTheDBExistency("phonebook.db"):
+        print ("Db exists" ) 
+    else:
+        print ("Db not exists")
+        settingTheDB()
+
+    mainCat = contactName[0].lower()
+    print("Main cat : "+mainCat)
+    insertNewContact(mainCat,contactName, phoneNum)
+
+
+def confirmTheSaving(contactName, phoneNum):
 
     global normalChat
     res = input("\tYou : ")
@@ -158,6 +218,7 @@ def confirmTheSaving():
     if res == "confirm":
         print("\tBot : I memorized the new contact!")
         normalChat = True
+        savingTheContact(contactName, phoneNum)
     elif res == "change":
         addingANew()
     elif res == "discard":
@@ -181,7 +242,7 @@ def addingANew():
 
     print("\n\t\t\t\tContact s name: "+contactName+"\n\t\t\t\tNumber : "+phoneNumber)
 
-    confirmTheSaving()
+    confirmTheSaving(contactName,phoneNumber)
 
 
 def viewTheContacts(userInput):
